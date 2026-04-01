@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 //*******************************************************************************
 // Class Definition Section
 //Implements play button use and key use
-public class BasicGameApp implements Runnable{ //KeyListener, MouseListener{
+public class BasicGameApp implements Runnable, KeyListener, MouseListener {
 
    //Variable Definition Section
    //Declare the variables used in the program 
@@ -178,9 +178,10 @@ public class BasicGameApp implements Runnable{ //KeyListener, MouseListener{
       canvas = new Canvas();
 
       //add key listener to canvas
-    //   canvas.addKeyListener(this);
 
-     //  canvas.addMouseListener(this);
+       canvas.addKeyListener(this);
+
+      canvas.addMouseListener(this);
 
       canvas.setBounds(0, 0, WIDTH, HEIGHT);
       canvas.setIgnoreRepaint(true);
@@ -227,45 +228,18 @@ public class BasicGameApp implements Runnable{ //KeyListener, MouseListener{
 	}
 
     //add key methods
-  /*  @Override
+    @Override
     public void keyTyped(KeyEvent e) {
 
     }
     @Override
     public void keyPressed(KeyEvent e) {
         System.out.println(e.getKeyCode());
-        if(e.getKeyCode()== 37){
-            astro1.isLeft = true;
-        }
-        if(e.getKeyCode() == 38){
-            astro1.isUp = true;
-        }
-
-        if(e.getKeyCode()== 39){
-            astro1.isRight = true;
-        }
-        if(e.getKeyCode()== 40){
-            astro1.isDown = true;
-        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         System.out.println(e.getKeyCode());
-        if(e.getKeyCode()== 37){
-            astro1.isLeft = false;
-        }
-        if(e.getKeyCode() == 38){
-            astro1.isUp = false;
-        }
-
-        if(e.getKeyCode()== 39){
-            astro1.isRight = false;
-        }
-        if(e.getKeyCode()== 40){
-            astro1.isDown = false;
-        }
-
     }
 
     @Override
@@ -291,20 +265,13 @@ public class BasicGameApp implements Runnable{ //KeyListener, MouseListener{
     @Override
     public void mouseEntered(MouseEvent e) {
         System.out.println("entered");
-        astro1.dy = 0;
-        astro2.dy = 0;
-        astro1.dx = 0;
-        astro2.dx = 0;
+
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        astro1.dy =1;
-        astro2.dy = 1;
-        astro1.dx = 2;
-        astro2.dx =2;
+
     }
 
-*/
 
 }
