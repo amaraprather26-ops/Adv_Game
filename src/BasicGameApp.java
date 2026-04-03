@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 //*******************************************************************************
 // Class Definition Section
 //Implements play button use and key use
-public class BasicGameApp implements Runnable, KeyListener, MouseListener {
+public class BasicGameApp implements Runnable, KeyListener, MouseListener{
 
    //Variable Definition Section
    //Declare the variables used in the program 
