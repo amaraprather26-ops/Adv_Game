@@ -36,7 +36,7 @@ public class Adventurer {
         ypos = pYpos;
         dx = -2;
         dy = -1;
-        width = 150;
+        width = 120;
         height = 150;
         isAlive = true;
         hitBox = new Rectangle(xpos, ypos, width, height);

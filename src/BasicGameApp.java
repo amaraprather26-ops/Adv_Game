@@ -13,6 +13,8 @@
 
 //Graphics Libraries
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.*;
 import javax.swing.JFrame;
@@ -22,7 +24,7 @@ import javax.swing.JPanel;
 //*******************************************************************************
 // Class Definition Section
 //Implements play button use and key use
-public class BasicGameApp implements Runnable, KeyListener, MouseListener{
+public class BasicGameApp implements Runnable, KeyListener { //MouseListener{
 
    //Variable Definition Section
    //Declare the variables used in the program 
@@ -51,8 +53,9 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener{
    // This is the code that runs first and automatically
 	public static void main(String[] args) {
 		BasicGameApp ex = new BasicGameApp();   //creates a new instance of the game
-		new Thread(ex).start();                 //creates a threads & starts up the code in the run( ) method  
-	}
+		new Thread(ex).start();//creates a threads & starts up the code in the run( ) method
+        System.out.println("Press space bar to start. \n Avoid the snakes and arrows and get the treasure");
+    }
 
 
    // Constructor Method
@@ -77,7 +80,7 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener{
 		adventPic = Toolkit.getDefaultToolkit().getImage("indianaJones.png");
         background = Toolkit.getDefaultToolkit().getImage("jungleBackground.jpg");
         //load the picture
-		adv1 = new Adventurer(500,400);
+		adv1 = new Adventurer(800,400);
         startButton = new Rectangle(100, 100, 350, 400);
 
     }// BasicGameApp()
@@ -181,7 +184,7 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener{
 
        canvas.addKeyListener(this);
 
-      canvas.addMouseListener(this);
+      //canvas.addMouseListener(this);
 
       canvas.setBounds(0, 0, WIDTH, HEIGHT);
       canvas.setIgnoreRepaint(true);
@@ -235,13 +238,19 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener{
     @Override
     public void keyPressed(KeyEvent e) {
         System.out.println(e.getKeyCode());
+        if(e.getKeyCode()==32){
+           isStart = true;
+        }
+        if(e.getKeyCode()==37){
+            adv1.xpos = adv1.xpos + adv1.dx;
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         System.out.println(e.getKeyCode());
     }
-
+/*
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -272,6 +281,6 @@ public class BasicGameApp implements Runnable, KeyListener, MouseListener{
     public void mouseExited(MouseEvent e) {
 
     }
-
+*/
 
 }
