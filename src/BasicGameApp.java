@@ -19,6 +19,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.tools.Tool;
 
 
 //*******************************************************************************
@@ -42,11 +43,13 @@ public class BasicGameApp implements Runnable, KeyListener { //MouseListener{
 	public BufferStrategy bufferStrategy;
 	public Image adventPic;
     public Image background;
+    public Image snakePic;
+    public Image arrowPic;
 
    //Declare the objects used in the program
    //These are things that are made up of more than one variable type
 	public Adventurer adv1;
-    public Rectangle startButton;
+    public Snake snake1;
     public boolean isStart;
 
    // Main method definition
@@ -54,7 +57,7 @@ public class BasicGameApp implements Runnable, KeyListener { //MouseListener{
 	public static void main(String[] args) {
 		BasicGameApp ex = new BasicGameApp();   //creates a new instance of the game
 		new Thread(ex).start();//creates a threads & starts up the code in the run( ) method
-        System.out.println("Press space bar to start. \n Avoid the snakes and arrows and get the treasure");
+        System.out.println("Press space bar to start.\nAvoid the snakes and arrows and get the treasure!");
     }
 
 
@@ -79,9 +82,11 @@ public class BasicGameApp implements Runnable, KeyListener { //MouseListener{
       //create (construct) the objects needed for the game and load up 
 		adventPic = Toolkit.getDefaultToolkit().getImage("indianaJones.png");
         background = Toolkit.getDefaultToolkit().getImage("jungleBackground.jpg");
+        snakePic = Toolkit.getDefaultToolkit().getImage("snake.jpg");
+        arrowPic = Toolkit.getDefaultToolkit().getImage("arrow.jpg");
         //load the picture
 		adv1 = new Adventurer(800,400);
-        startButton = new Rectangle(100, 100, 350, 400);
+        snake1 = new Snake (40, 60, 100, 100, 4);
 
     }// BasicGameApp()
 
@@ -109,7 +114,9 @@ public class BasicGameApp implements Runnable, KeyListener { //MouseListener{
 
         if (isStart) {
             //calls the move( ) code in the objects
-            adv1.move();
+
+            //adv1.move();
+
            /* for(int i=0; i<asteroids.length; i++) {
                 asteroids[i].move();
             }
@@ -217,6 +224,7 @@ public class BasicGameApp implements Runnable, KeyListener { //MouseListener{
         //draw the image of the adventurer
         //if(astro1.isAlive = true){
         g.drawImage(adventPic, adv1.xpos, adv1.ypos, adv1.width, adv1.height, null);
+        g.drawImage(snakePic, snake1.width, snake1.height, snake1.xpos, snake1.ypos, null);
         //g.drawRect(xpos, ypos, width, height)<-- would actually draw the hitBox rectangle
        // for(int i=0; i<asteroids.length; i++){
        //     g.drawImage(roidPic, asteroids[i].xpos, asteroids[i].ypos, asteroids[i].width, asteroids[i].height, null);
@@ -243,6 +251,15 @@ public class BasicGameApp implements Runnable, KeyListener { //MouseListener{
         }
         if(e.getKeyCode()==37){
             adv1.xpos = adv1.xpos + adv1.dx;
+        }
+        if(e.getKeyCode()==39){
+            adv1.xpos = adv1.xpos - adv1.dx;
+        }
+        if(e.getKeyCode()==38){
+            adv1.ypos = adv1.ypos + adv1.dy;
+        }
+        if(e.getKeyCode()==40){
+            adv1.ypos = adv1.ypos - adv1.dy;
         }
     }
 

@@ -49,7 +49,7 @@ public class Adventurer {
     } // constructor
 
     //The move method.  Everytime this is run (or "called") the hero's x position and y position change by dx and dy
-    public void move() {
+    /*public void move() {
 
         xpos = xpos + dx;
         ypos = ypos + dy;
@@ -65,7 +65,7 @@ public class Adventurer {
         }
         if(isRight){
             dx = Math.abs(dx);
-        }*/
+        }
 
         if (xpos < 0) {
             dx = -dx;
@@ -80,7 +80,7 @@ public class Adventurer {
             dy = -dy;
         }
         hitBox = new Rectangle(xpos, ypos, width, height);
-    }
+    }*/
 }
 
 
