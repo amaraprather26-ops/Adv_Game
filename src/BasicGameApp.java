@@ -50,14 +50,20 @@ public class BasicGameApp implements Runnable, KeyListener { //MouseListener{
    //These are things that are made up of more than one variable type
 	public Adventurer adv1;
     public Snake snake1;
+    public Snake snake2;
+    public Snake snake3;
     public boolean isStart;
+    public boolean isLife1;
+    public boolean isLife2;
+    public boolean isLife3;
+    public Arrow[] arrows; //makes arrows array
 
-   // Main method definition
+    // Main method definition
    // This is the code that runs first and automatically
 	public static void main(String[] args) {
 		BasicGameApp ex = new BasicGameApp();   //creates a new instance of the game
 		new Thread(ex).start();//creates a threads & starts up the code in the run( ) method
-        System.out.println("Press space bar to start.\nAvoid the snakes and arrows and get the treasure!");
+        System.out.println("Press space bar to start.\nAvoid the snakes to live!");
     }
 
 
@@ -79,14 +85,22 @@ public class BasicGameApp implements Runnable, KeyListener { //MouseListener{
       int randy = (int)(Math.random()*600) + 1;
 
       //variable and objects
-      //create (construct) the objects needed for the game and load up 
-		adventPic = Toolkit.getDefaultToolkit().getImage("indianaJones.png");
-        background = Toolkit.getDefaultToolkit().getImage("jungleBackground.jpg");
+      //create (construct) the objects needed for the game and load up
         snakePic = Toolkit.getDefaultToolkit().getImage("snake.jpg");
         arrowPic = Toolkit.getDefaultToolkit().getImage("arrow.jpg");
+        adventPic = Toolkit.getDefaultToolkit().getImage("indianaJones.png");
+        background = Toolkit.getDefaultToolkit().getImage("jungleBackground.jpg");
+
         //load the picture
 		adv1 = new Adventurer(800,400);
-        snake1 = new Snake (40, 60, 100, 100, 4);
+        snake1 = new Snake (400, 500, 70, 60, 1);
+        snake2 = new Snake(150, 10, 120, 130, 2);
+        snake3 = new Snake (570, 450, 90, 80, 3);
+
+        arrows = new Arrow[10];
+        for(int i=0;i<arrows.length;i++){
+            arrows[i] = new Arrow(0, i*80, 45, 45, i, 1);
+        }
 
     }// BasicGameApp()
 
@@ -102,6 +116,9 @@ public class BasicGameApp implements Runnable, KeyListener { //MouseListener{
 	public void run() {
 
       //for the moment we will loop things forever.
+        isLife1 = true;
+        isLife2 = true;
+        isLife3 = true;
 		while (true) {
          moveThings();  //move all the game objects
          render();  // paint the graphics
@@ -111,18 +128,22 @@ public class BasicGameApp implements Runnable, KeyListener { //MouseListener{
 
 
 	public void moveThings(){
-
         if (isStart) {
+            adv1.move();
+            snake1.move();
+            snake2.move();
+            snake3.move();
+            for(int i=0; i<arrows.length; i++) {
+                arrows[i].move();
+            }
+
             //calls the move( ) code in the objects
 
             //adv1.move();
 
-           /* for(int i=0; i<asteroids.length; i++) {
-                asteroids[i].move();
-            }
             Collision();
-            astro1Collision();
-            if (astro1.isUp){
+            //astro1Collision();
+            /*if (astro1.isUp){
                 astro1.dy = -Math.abs(astro1.dy);
             }
             if(astro1.isDown){
@@ -137,28 +158,88 @@ public class BasicGameApp implements Runnable, KeyListener { //MouseListener{
         }
 	}
 
-    /*public void Collision(){
-        if(astro1.hitBox.intersects(astro2.hitBox)&& !astro1.isCrashing) {
-            //System.out.println("Crash");
-            astro1.dx = -astro1.dx;
-            astro1.dy = -astro1.dy;
-            astro2.dx = -astro2.dx;
-            astro2.dy = -astro2.dy;
-            astro1.isCrashing = true;
-            //astro1.isAlive = false
+    public void Collision(){
+        if(adv1.hitBox.intersects(snake1.hitBox) && adv1.isCrashing == false&&isLife1&&isLife2&&isLife3) {
+            System.out.println("Crash");
+           // snake1.dy = snake1.dy +1;
+            adv1.xpos = adv1.xpos +20;
+            adv1.isCrashing = true;
+            isLife1 = false;
+        }
+        if(adv1.hitBox.intersects(snake2.hitBox)&&!adv1.isCrashing&&isLife1&&isLife2&&isLife3) {
+            System.out.println("Crash");
+            //snake2.dy = snake2.dy +1;
+            adv1.xpos = adv1.xpos +20;
+            adv1.isCrashing = true;
+            isLife1 = false;
+        }
+        if(adv1.hitBox.intersects(snake3.hitBox)&&!adv1.isCrashing&&isLife1&&isLife2&&isLife3) {
+            System.out.println("Crash");
+            // snake3.dy = snake3.dy +1;
+            adv1.xpos = adv1.xpos + 20;
+            adv1.isCrashing = true;
+            isLife1 = false;
+        }
+        if(adv1.hitBox.intersects(snake1.hitBox) && adv1.isCrashing == false&&!isLife1&&isLife2&&isLife3) {
+            System.out.println("Crash");
+            //snake1.dy = snake1.dy +1;
+            adv1.xpos = adv1.xpos +20;
+            adv1.isCrashing = true;
+            isLife2 = false;
+        }
+        if(adv1.hitBox.intersects(snake2.hitBox)&&!adv1.isCrashing&&!isLife1&&isLife2&&isLife3) {
+            System.out.println("Crash");
+            //snake2.dy = snake2.dy +1;
+            adv1.xpos = adv1.xpos +20;
+            adv1.isCrashing = true;
+            isLife2 = false;
+        }
+        if(adv1.hitBox.intersects(snake3.hitBox)&&!adv1.isCrashing&&!isLife1&&isLife2&&isLife3) {
+            System.out.println("Crash");
+            //snake3.dy = snake3.dy + 1;
+            adv1.xpos = adv1.xpos + 20;
+            adv1.isCrashing = true;
+            isLife2 = false;
         }
 
-        if(asteroid1.hitBox.intersects(asteroid2.hitBox) && asteroid2.isCrashing == false) {
-            System.out.println("asteroid collision");
-            asteroid2.isCrashing = true;
-            asteroid2.height = asteroid2.height+10;
+        if(adv1.hitBox.intersects(snake1.hitBox) && !adv1.isCrashing&&!isLife1&&!isLife2&&isLife3) {
+                System.out.println("Crash");
+              //  snake1.dy = snake1.dy +1;
+                adv1.xpos = adv1.xpos +20;
+                adv1.isCrashing = true;
+            isLife3 = false;
+            }
+        if(adv1.hitBox.intersects(snake2.hitBox)&&!adv1.isCrashing&&!isLife1&&!isLife2&&isLife3) {
+                System.out.println("Crash");
+            //    snake2.dy = snake2.dy +1;
+                adv1.xpos = adv1.xpos +20;
+                adv1.isCrashing = true;
+            isLife3 = false;
+            }
+        if(adv1.hitBox.intersects(snake3.hitBox)&&!adv1.isCrashing&&!isLife1&&!isLife2&&isLife3) {
+                System.out.println("Crash");
+              //  snake3.dy = snake3.dy + 1;
+                adv1.xpos = adv1.xpos + 20;
+                adv1.isCrashing = true;
+                isLife3 = false;
+            }
+
+        if(!adv1.hitBox.intersects(snake1.hitBox)) {
+            adv1.isCrashing = false;
+        }
+        if(!adv1.hitBox.intersects(snake2.hitBox)) {
+            adv1.isCrashing = false;
+        }
+        if(!adv1.hitBox.intersects(snake3.hitBox)) {
+            adv1.isCrashing = false;
         }
 
-        if(!asteroid1.hitBox.intersects(asteroid2.hitBox)){
-            asteroid2.isCrashing = false;
+        if(!isLife3){
+            adv1.isAlive = false;
         }
+
     }
-
+/*
     public void astro1Collision(){
         for(int i=0; i<asteroids.length; i++) {
             if (asteroids[i].hitBox.intersects(astro1.hitBox)) {
@@ -222,16 +303,33 @@ public class BasicGameApp implements Runnable, KeyListener { //MouseListener{
         //start
         // draw things here
         //draw the image of the adventurer
-        //if(astro1.isAlive = true){
-        g.drawImage(adventPic, adv1.xpos, adv1.ypos, adv1.width, adv1.height, null);
-        g.drawImage(snakePic, snake1.width, snake1.height, snake1.xpos, snake1.ypos, null);
+        if(adv1.isAlive) {
+            g.drawImage(adventPic, adv1.xpos, adv1.ypos, adv1.width, adv1.height, null);
+        }
+        g.drawImage(snakePic, snake1.xpos, snake1.ypos,snake1.width, snake1.height, null);
+        g.drawImage(snakePic, snake2.xpos, snake2.ypos,snake2.width, snake2.height, null);
+        g.drawImage(snakePic, snake3.xpos, snake3.ypos,snake3.width, snake3.height, null);
         //g.drawRect(xpos, ypos, width, height)<-- would actually draw the hitBox rectangle
        // for(int i=0; i<asteroids.length; i++){
        //     g.drawImage(roidPic, asteroids[i].xpos, asteroids[i].ypos, asteroids[i].width, asteroids[i].height, null);
       //  }
-        g.setColor(Color.GREEN);
-        g.fillRect(100,100,100,100);
+        if(isLife1) {
+            g.setColor(Color.RED);
+            g.fillRect(150, 100, 25, 25);
+        }
+        if(isLife2) {
+            g.setColor(Color.RED);
+            g.fillRect(100, 100, 25, 25);
+        }
+        if(isLife3) {
+            g.setColor(Color.RED);
+            g.fillRect(50, 100, 25, 25);
+        }
 
+        for(int i=0; i<arrows.length; i++){
+            g.drawImage(arrowPic, arrows[i].xpos, arrows[i].ypos, arrows[i].width, arrows[i].height, null);
+        }
+        //makes the life counters dependant on the islife variables
         //end
 		g.dispose();
 
@@ -250,16 +348,28 @@ public class BasicGameApp implements Runnable, KeyListener { //MouseListener{
            isStart = true;
         }
         if(e.getKeyCode()==37){
-            adv1.xpos = adv1.xpos + adv1.dx;
+            adv1.left = true;
+        }
+        else{
+            adv1.left = false;
         }
         if(e.getKeyCode()==39){
-            adv1.xpos = adv1.xpos - adv1.dx;
+            adv1.right = true;
+        }
+        else{
+            adv1.right = false;
         }
         if(e.getKeyCode()==38){
-            adv1.ypos = adv1.ypos + adv1.dy;
+            adv1.down = true;
+        }
+        else{
+            adv1.down = false;
         }
         if(e.getKeyCode()==40){
-            adv1.ypos = adv1.ypos - adv1.dy;
+            adv1.up = true;
+        }
+        else{
+            adv1.up = false;
         }
     }
 
